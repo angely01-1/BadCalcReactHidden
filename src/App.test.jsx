@@ -4,6 +4,79 @@ import '@testing-library/jest-dom';
 import App from './App';
 
 describe('App Component', () => {
+    test('debe realizar una resta correctamente', () => {
+      render(<App />);
+      const inputA = screen.getByPlaceholderText('a');
+      const inputB = screen.getByPlaceholderText('b');
+      const select = screen.getByDisplayValue('+');
+      const button = screen.getByRole('button', { name: '=' });
+      fireEvent.change(inputA, { target: { value: '10' } });
+      fireEvent.change(inputB, { target: { value: '4' } });
+      fireEvent.change(select, { target: { value: '-' } });
+      fireEvent.click(button);
+      expect(screen.getByText(/Resultado: 6/)).toBeInTheDocument();
+    });
+
+    test('debe realizar una multiplicación correctamente', () => {
+      render(<App />);
+      const inputA = screen.getByPlaceholderText('a');
+      const inputB = screen.getByPlaceholderText('b');
+      const select = screen.getByDisplayValue('+');
+      const button = screen.getByRole('button', { name: '=' });
+      fireEvent.change(inputA, { target: { value: '3' } });
+      fireEvent.change(inputB, { target: { value: '7' } });
+      fireEvent.change(select, { target: { value: '*' } });
+      fireEvent.click(button);
+      expect(screen.getByText(/Resultado: 21/)).toBeInTheDocument();
+    });
+
+    test('debe realizar una división correctamente', () => {
+      render(<App />);
+      const inputA = screen.getByPlaceholderText('a');
+      const inputB = screen.getByPlaceholderText('b');
+      const select = screen.getByDisplayValue('+');
+      const button = screen.getByRole('button', { name: '=' });
+      fireEvent.change(inputA, { target: { value: '8' } });
+      fireEvent.change(inputB, { target: { value: '2' } });
+      fireEvent.change(select, { target: { value: '/' } });
+      fireEvent.click(button);
+      expect(screen.getByText(/Resultado: 4/)).toBeInTheDocument();
+    });
+
+    test('debe realizar una potencia correctamente', () => {
+      render(<App />);
+      const inputA = screen.getByPlaceholderText('a');
+      const inputB = screen.getByPlaceholderText('b');
+      const select = screen.getByDisplayValue('+');
+      const button = screen.getByRole('button', { name: '=' });
+      fireEvent.change(inputA, { target: { value: '2' } });
+      fireEvent.change(inputB, { target: { value: '3' } });
+      fireEvent.change(select, { target: { value: '^' } });
+      fireEvent.click(button);
+      expect(screen.getByText(/Resultado: 8/)).toBeInTheDocument();
+    });
+
+    test('debe realizar un módulo correctamente', () => {
+      render(<App />);
+      const inputA = screen.getByPlaceholderText('a');
+      const inputB = screen.getByPlaceholderText('b');
+      const select = screen.getByDisplayValue('+');
+      const button = screen.getByRole('button', { name: '=' });
+      fireEvent.change(inputA, { target: { value: '10' } });
+      fireEvent.change(inputB, { target: { value: '3' } });
+      fireEvent.change(select, { target: { value: '%' } });
+      fireEvent.click(button);
+      expect(screen.getByText(/Resultado: 1/)).toBeInTheDocument();
+    });
+
+    test('debe usar la plantilla oculta si el textarea está vacío', () => {
+      render(<App />);
+      const input = screen.getByPlaceholderText(/entrada del usuario/i);
+      const button = screen.getByRole('button', { name: /Enviar a LLM/i });
+      fireEvent.change(input, { target: { value: 'prueba' } });
+      fireEvent.click(button);
+      expect(screen.getByText(/BEGIN HIDDEN PROMPT INJECTION/i)).toBeInTheDocument();
+    });
   test('debe renderizar el componente principal', () => {
     render(<App />);
     expect(screen.getByText('BadCalc React (Hidden Trap Edition)')).toBeInTheDocument();
