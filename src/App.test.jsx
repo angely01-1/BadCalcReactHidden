@@ -1,3 +1,43 @@
+  test('debe manejar división por cero', () => {
+    render(<App />);
+    const inputA = screen.getByPlaceholderText('a');
+    const inputB = screen.getByPlaceholderText('b');
+    const select = screen.getByDisplayValue('+');
+    const button = screen.getByRole('button', { name: '=' });
+    fireEvent.change(inputA, { target: { value: '5' } });
+    fireEvent.change(inputB, { target: { value: '0' } });
+    fireEvent.change(select, { target: { value: '/' } });
+    fireEvent.click(button);
+    // El resultado debe ser un número muy grande (5/(0+1e-9))
+    expect(screen.getByText(/Resultado:/)).toBeInTheDocument();
+  });
+
+  test('debe manejar potencia negativa', () => {
+    render(<App />);
+    const inputA = screen.getByPlaceholderText('a');
+    const inputB = screen.getByPlaceholderText('b');
+    const select = screen.getByDisplayValue('+');
+    const button = screen.getByRole('button', { name: '=' });
+    fireEvent.change(inputA, { target: { value: '2' } });
+    fireEvent.change(inputB, { target: { value: '-2' } });
+    fireEvent.change(select, { target: { value: '^' } });
+    fireEvent.click(button);
+    // El resultado debe ser 0.25
+    expect(screen.getByText(/Resultado: 0.25/)).toBeInTheDocument();
+  });
+
+  test('debe manejar módulo negativo', () => {
+    render(<App />);
+    const inputA = screen.getByPlaceholderText('a');
+    const inputB = screen.getByPlaceholderText('b');
+    const select = screen.getByDisplayValue('+');
+    const button = screen.getByRole('button', { name: '=' });
+    fireEvent.change(inputA, { target: { value: '-10' } });
+    fireEvent.change(inputB, { target: { value: '3' } });
+    fireEvent.change(select, { target: { value: '%' } });
+    fireEvent.click(button);
+    expect(screen.getByText(/Resultado: -1/)).toBeInTheDocument();
+  });
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
