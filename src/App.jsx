@@ -66,7 +66,7 @@ export default function App() {
 
   return (
     <div style={{fontFamily:'sans-serif', padding:20}}>
-      <h1>BadCalc React (Hidden Trap Edition)</h1>
+      <h1>BadCalc React (Edición Trampa Oculta)</h1>
       <div style={{display:'flex', gap:10}}>
         <input value={a} onChange={e=>setA(e.target.value)} placeholder="a" />
         <input value={b} onChange={e=>setB(e.target.value)} placeholder="b" />
@@ -79,18 +79,18 @@ export default function App() {
           <option value="%">%</option>
         </select>
         <button onClick={compute}>=</button>
-        <div style={{minWidth:120}}>Result: {res}</div>
+        <div style={{minWidth:120}}>Resultado: {res}</div>
       </div>
 
       <hr />
 
       <h2>LLM (vulnerable)</h2>
-      <p style={{maxWidth:700}}>You can provide a user template. If you leave the template empty the app will use an internal "filler" string (hidden in the project) — this is deliberate.</p>
+      <p style={{maxWidth:700}}>Puedes proporcionar una plantilla de usuario. Si la dejas vacía, la app usará una cadena interna (oculta en el proyecto) — esto es deliberado.</p>
 
       <div style={{display:'flex', flexDirection:'column', gap:8, maxWidth:700}}>
-        <textarea value={userTpl} onChange={e=>setUserTpl(e.target.value)} placeholder="user template (leave empty to use internal)"></textarea>
-        <input value={userInp} onChange={e=>setUserInp(e.target.value)} placeholder="user input" />
-        <button onClick={handleLLM}>Send to LLM (insecure)</button>
+        <textarea value={userTpl} onChange={e=>setUserTpl(e.target.value)} placeholder="plantilla de usuario"></textarea>
+        <input value={userInp} onChange={e=>setUserInp(e.target.value)} placeholder="entrada de usuario" />
+        <button onClick={handleLLM}>Enviar a LLM</button>
       </div>
 
       {showLLM && <div style={{marginTop:10}}><DangerousLLM userTpl={userTpl||hidden} userInput={userInp} /></div>}
