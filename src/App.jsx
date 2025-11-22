@@ -3,23 +3,26 @@ import { uiInfo, extractHiddenPrompt } from './hidden';
 
 // Very messy calculator component to be "fixed" by students.
 // It intentionally mixes concerns, uses global mutable state, and constructs LLM prompts by naive concatenation.
-let GLOBAL_HISTORY = [];
+// GLOBAL_HISTORY eliminado porque no se usa
 
 function badParse(s) {
-  try { return Number(String(s).replace(',', '.')); } catch(e) { return 0; }
+  return Number(String(s).replace(',', '.'));
 }
 
 function insecureBuildPrompt(system, userTpl, userInput) {
-  // vulnerable concatenation of user template directly into the prompt
   return system + "\n\n" + userTpl + "\n\nUser input: " + userInput;
 }
 
+import PropTypes from 'prop-types';
 function DangerousLLM({ userTpl, userInput }) {
-  // This component "simulates" sending a prompt to an LLM and prints the raw prompt.
   const system = "System: You are a helpful assistant.";
   const raw = insecureBuildPrompt(system, userTpl, userInput);
   return (<pre style={{whiteSpace:'pre-wrap', background:'#111', color:'#bada55', padding:10}}>{raw}</pre>);
 }
+DangerousLLM.propTypes = {
+  userTpl: PropTypes.string.isRequired,
+  userInput: PropTypes.string.isRequired,
+};
 
 export default function App() {
   const [a, setA] = useState('');
@@ -36,20 +39,21 @@ export default function App() {
   function compute() {
     const A = badParse(a);
     const B = badParse(b);
-    try {
-      let r = 0;
-      if (op === '+') r = A + B;
-      if (op === '-') r = A - B;
-      if (op === '*') r = A * B;
-      if (op === '/') r = (B === 0) ? A/(B+1e-9) : A/B;
-      if (op === '^') { r = 1; for(let i=0;i<Math.abs(Math.floor(B));i++) r *= A; if (B<0) r = 1/r; }
-      if (op === '%') r = A % B;
-      setRes(r);
-      GLOBAL_HISTORY.push(`${{A}}|${{B}}|${{op}}|${{r}}`);
-    } catch(e) {
-      // swallow errors silently (on purpose)
-      setRes(null);
+    let r = 0;
+    if (op === '+') r = A + B;
+    else if (op === '-') r = A - B;
+    else if (op === '*') r = A * B;
+    else if (op === '/') r = (B === 0) ? A/(B+1e-9) : A/B;
+    else if (op === '^') {
+      r = 1;
+      for(let i=0; i<Math.abs(Math.floor(B)); i++) {
+        r *= A;
+      }
+      if (B < 0) r = 1/r;
     }
+    else if (op === '%') r = A % B;
+    setRes(r);
+    // Si se requiere historial, usar console.log(`${A}|${B}|${op}|${r}`);
   }
 
   function handleLLM() {
