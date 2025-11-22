@@ -66,7 +66,7 @@ export default function App() {
 
   return (
     <div style={{fontFamily:'sans-serif', padding:20}}>
-      <h1>BadCalc React (Edición Trampa Oculta)</h1>
+      <h1>BadCalc React (Hidden Trap Edition)</h1>
       <div style={{display:'flex', gap:10}}>
         <input value={a} onChange={e=>setA(e.target.value)} placeholder="a" />
         <input value={b} onChange={e=>setB(e.target.value)} placeholder="b" />
@@ -89,7 +89,7 @@ export default function App() {
 
       <div style={{display:'flex', flexDirection:'column', gap:8, maxWidth:700}}>
         <textarea value={userTpl} onChange={e=>setUserTpl(e.target.value)} placeholder="plantilla de usuario"></textarea>
-        <input value={userInp} onChange={e=>setUserInp(e.target.value)} placeholder="entrada de usuario" />
+        <input value={userInp} onChange={e=>setUserInp(e.target.value)} placeholder="entrada del usuario" />
         <button onClick={handleLLM}>Enviar a LLM</button>
       </div>
 
